@@ -3,6 +3,7 @@ package com.postcoreapi.controller;
 import com.postcoreapi.model.PostModel;
 import com.postcoreapi.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    Environment env;
+
     @PostMapping
     public ResponseEntity<String> createPost(@Valid @RequestBody PostModel postModel){
         postService.createPost(postModel);
@@ -25,7 +29,8 @@ public class PostController {
 
     @GetMapping("/check")
     public ResponseEntity<String> healthCheck(){
-        return new ResponseEntity<String>("post-core-api is working", HttpStatus.OK);
+        String status = String.format("post-core-api is working at port: (%d)", env.getProperty("server.port"));
+        return new ResponseEntity<String>(status, HttpStatus.OK);
     }
 
     @GetMapping("/all")
