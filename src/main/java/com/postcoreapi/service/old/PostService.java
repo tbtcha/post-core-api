@@ -1,4 +1,4 @@
-package com.postcoreapi.service;
+package com.postcoreapi.service.old;
 
 import com.postcoreapi.model.PostModel;
 

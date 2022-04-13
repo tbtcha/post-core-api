@@ -1,7 +1,9 @@
 package com.postcoreapi.controller;
 
 import com.postcoreapi.model.PostModel;
-import com.postcoreapi.service.PostService;
+import com.postcoreapi.model.PostRequest;
+import com.postcoreapi.model.PostResponse;
+import com.postcoreapi.service.working.PostServiceImplNew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -16,15 +18,14 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    private PostService postService;
+    private PostServiceImplNew postService;
 
     @Autowired
     Environment env;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@Valid @RequestBody PostModel postModel){
-        postService.createPost(postModel);
-        return new ResponseEntity<String>("Successfully created", HttpStatus.OK);
+    public ResponseEntity<PostResponse> createPost(@Valid @RequestBody PostRequest postRequest){
+        return new ResponseEntity<PostResponse>(postService.createPost(postRequest), HttpStatus.OK);
     }
 
     @GetMapping("/check")
@@ -34,20 +35,18 @@ public class PostController {
     }
 
     @GetMapping("/all")
-    public List<PostModel> getAllPosts(){
+    public List<PostResponse> getAllPosts(){
         return postService.getAllPosts();
     }
 
     @GetMapping("/{postId}")
-    public PostModel getPostById(@PathVariable String postId){
+    public PostResponse getPostById(@PathVariable String postId){
         return postService.getPostById(postId);
     }
 
-    @PutMapping("/{postId}")
-    public ResponseEntity<String> updatePostById(@PathVariable String postId,
-                                                     @Valid @RequestBody PostModel postModel) {
-        postService.updatePostById(postId,postModel);
-        return new ResponseEntity<String>("Successfully updated", HttpStatus.OK);
+    @PutMapping
+    public ResponseEntity<PostResponse> updatePost(@Valid @RequestBody PostRequest postRequest) {
+        return new ResponseEntity<PostResponse>(postService.updatePost(postRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{postId}")

@@ -3,18 +3,19 @@ package com.postcoreapi.model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
-import lombok.NonNull;
+
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class PostModel {
 private String postId;
-@NonNull
+    @NotNull
 private String clientId;
-@NonNull
+    @NotNull
 private String postRecipientId;
-@NonNull
+@NotNull
 private String postItem;
 private String status;
 }
